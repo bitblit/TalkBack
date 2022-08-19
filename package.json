@@ -1,0 +1,90 @@
+{
+  "name": "@bitblit/TalkBack",
+  "version": "0.0.0",
+  "description": "My first alexa skill",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "contributors": [
+    "Christopher Weiss <bitblit@gmail.com>"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "prettier": {
+    "printWidth": 140,
+    "singleQuote": true,
+    "arrowParens": "always"
+  },
+  "config": {},
+  "scripts": {
+    "prepare-to-publish": "yarn build && yarn run apply-ci-vars && yarn remove-compiled-tests",
+    "copy-static-files": "shx cp -R src/static dist",
+    "build": "yarn run clean && yarn run generate-barrels && yarn run compile && yarn copy-static-files",
+    "compile": "tsc",
+    "watch": "tsc-watch",
+    "remove-compiled-tests": "rimraf ./lib/**/*.spec.d.ts && rimraf ./lib/**/*.spec.js && rimraf ./lib/**/*.spec.js.map",
+    "clean": "shx rm -Rf lib bundles temp",
+    "compile-test": "yarn compile && yarn test",
+    "apply-ci-vars": "node dist/node-only/ci/apply-ci-env-variables-to-files github dist/static/build-properties.json",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "lint-fix": "eslint --fix src/**/*.ts",
+    "generate-barrels": "barrelsby -q --delete -d src -l below -e .*\\.spec\\.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bitblit/TalkBack"
+  },
+  "keywords": [
+    "wrench",
+    "utility"
+  ],
+  "bugs": {
+    "url": "https://github.com/bitblit/TalkBack/issues"
+  },
+  "homepage": "https://github.com/bitblit/TalkBack#readme",
+  "engines": {
+    "node": ">=14.15"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "luxon": "3.0.1",
+    "ts-enum-util": "4.0.2",
+    "aws-sdk": "2.1191.0",
+    "ask-sdk": "2.12.1"
+  },
+  "resolutions": {
+  },
+  "devDependencies": {
+    "ask-cli": "2.28.0",
+    "ask-sdk-test": "2.6.0",
+    "@types/aws-lambda": "8.10.101",
+    "@types/jest": "28.1.6",
+    "@types/luxon": "3.0.0",
+    "@types/node": "14.18.1",
+    "@typescript-eslint/eslint-plugin": "5.33.0",
+    "@typescript-eslint/parser": "5.33.0",
+    "barrelsby": "2.3.4",
+    "cross-fetch": "3.1.5",
+    "eslint": "8.21.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "husky": "8.0.1",
+    "jest": "28.1.3",
+    "js-yaml": "4.1.0",
+    "prettier": "2.7.1",
+    "pretty-quick": "3.1.3",
+    "rimraf": "3.0.2",
+    "shx": "0.3.4",
+    "ts-jest": "28.0.7",
+    "ts-node": "10.9.1",
+    "tsc-watch": "5.0.3",
+    "typescript": "4.7.4"
+  }
+}
