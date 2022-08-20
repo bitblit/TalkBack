@@ -21,8 +21,11 @@
     "forceConsistentCasingInFileNames": true,
     "lib": ["es2015", "es6", "dom"]
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "build", "webpack"],
+  "include": [
+    "modules/cweiss-talk-back-01/src/**/*.ts"
+  ],
+  "exclude": [
+    "../../node_modules", "build", "webpack"],
   "types": ["typePatches"],
   "CAW_NOTES": "Set noImplicitAny, noImplicitThis and noUnusedLocals back to true at some point"
 }
