@@ -1,0 +1,21 @@
+FROM public.ecr.aws/lambda/nodejs:16
+
+# Enables building yarn native dependencies
+RUN yum -y install python3
+RUN yum -y install pkgconfig make gcc-c++
+
+# Install yarn itself
+RUN npm install --location=global yarn
+
+# Install the rest
+COPY package.json ${LAMBDA_TASK_ROOT}
+RUN mkdir ${LAMBDA_TASK_ROOT}/modules
+COPY modules/api ${LAMBDA_TASK_ROOT}/modules/cweiss-talk-back-01/
+
+# Build from source to get a working node-canvas
+RUN npm_config_build_from_source=true yarn install
+RUN cd ${LAMBDA_TASK_ROOT}/modules/cweiss-talk-back-01 && yarn build
+RUN ls ${LAMBDA_TASK_ROOT}/modules/cweiss-talk-back-01/dist
+
+ENTRYPOINT ["sh","/var/task/lambda-bootstrap-shell.sh"]
+CMD [ "modules/api/dist/lambda.handler" ]
